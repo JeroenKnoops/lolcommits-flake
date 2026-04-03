@@ -26,10 +26,26 @@
           inherit (pkgs) bundler;
         };
 
+        lolcommits-wrapped = pkgs.symlinkJoin {
+          name = "lolcommits-wrapped";
+          paths = [ rubyEnv ];
+          buildInputs = [ pkgs.makeWrapper ];
+          postBuild = ''
+            for bin in lolcommits lolcommits-clay lolcommits-config lolcommits-plugin-manager; do
+              if [ -f "$out/bin/$bin" ]; then
+                wrapProgram "$out/bin/$bin" \
+                  --prefix PATH : ${pkgs.imagemagick}/bin \
+                  --prefix PATH : ${pkgs.ffmpeg}/bin
+              fi
+            done
+          '';
+        };
+
       in
       {
         packages = {
-          default = rubyEnv;
+          default = lolcommits-wrapped;
+          lolcommits-bundle = rubyEnv;
         };
 
         devShells.default = pkgs.mkShell {

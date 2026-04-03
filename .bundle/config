@@ -1,3 +1,4 @@
 ---
 BUNDLE_FORCE_RUBY_PLATFORM: "true"
 BUNDLE_PATH: ".gems"
+BUNDLE_GEMFILE: "/Users/phnl310181059/workspace/jeroenknoops/lolcommits-flake/Gemfile"
